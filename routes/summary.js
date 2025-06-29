@@ -21,8 +21,8 @@ router.get('/:id', async (req, res) => {
       name: concept,
       summary,
     });
-  } catch (err) {
-    console.error('Errore Axios:', error); // <== QUESTA RIGA AGGIUNGILA
+  } catch (error) {
+  console.error('Errore Axios:', error);
     res.status(500).json({ error: 'Errore durante il recupero del concetto' });
   }
 });
