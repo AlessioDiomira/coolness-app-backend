@@ -5,9 +5,17 @@ const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 require('dotenv').config();
 
+const placesRoutes = require('./routes/places');
+const votesRoutes = require('./routes/votes');
+const summaryRoutes = require('./routes/summary');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/places', placesRoutes);
+app.use('/api/votes', votesRoutes);
+app.use('/api/summary', summaryRoutes);
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
