@@ -56,8 +56,7 @@ app.get('/api/user/profile', auth, (req, res) => {
   res.send({ email: req.user.email });
 });
 
-const searchRoutes = require('./routes/search');
-app.use('/api/search', searchRoutes);
+
 
 app.listen(3001, () => console.log('Server on port 3001'));
 
