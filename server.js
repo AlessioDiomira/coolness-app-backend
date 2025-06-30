@@ -9,7 +9,7 @@ const placesRoutes = require('./routes/places');
 const votesRoutes = require('./routes/votes');
 const summaryRoutes = require('./routes/summary');
 const nearbyRoutes = require('./routes/nearby');
-app.use('/api/places/nearby', nearbyRoutes);
+
 
 const app = express();
 app.use(cors());
@@ -26,6 +26,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
+app.use('/api/places/nearby', nearbyRoutes);
 const auth = require('./auth');
 
 app.post('/api/register', (req, res) => {
