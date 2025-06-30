@@ -9,6 +9,7 @@ const placesRoutes = require('./routes/places');
 const votesRoutes = require('./routes/votes');
 const summaryRoutes = require('./routes/summary');
 const nearbyRoutes = require('./routes/nearby');
+const searchRoutes = require('./routes/search');
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/places', placesRoutes);
 app.use('/api/votes', votesRoutes);
 app.use('/api/summary', summaryRoutes);
+app.use('/api/search', searchRoutes);
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -53,6 +55,9 @@ app.post('/api/login', (req, res) => {
 app.get('/api/user/profile', auth, (req, res) => {
   res.send({ email: req.user.email });
 });
+
+const searchRoutes = require('./routes/search');
+app.use('/api/search', searchRoutes);
 
 app.listen(3001, () => console.log('Server on port 3001'));
 
