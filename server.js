@@ -55,6 +55,4 @@ app.get('/api/user/profile', auth, (req, res) => {
 
 app.listen(3001, () => console.log('Server on port 3001'));
 
-const nearbyRoutes = require('./routes/nearby');
-app.use('/api/places/nearby', nearbyRoutes);
 // ...
