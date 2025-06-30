@@ -8,6 +8,8 @@ require('dotenv').config();
 const placesRoutes = require('./routes/places');
 const votesRoutes = require('./routes/votes');
 const summaryRoutes = require('./routes/summary');
+const nearbyRoutes = require('./routes/nearby');
+app.use('/api/places/nearby', nearbyRoutes);
 
 const app = express();
 app.use(cors());
@@ -52,3 +54,9 @@ app.get('/api/user/profile', auth, (req, res) => {
 });
 
 app.listen(3001, () => console.log('Server on port 3001'));
+
+const votesRoutes = require('./routes/votes');
+const nearbyRoutes = require('./routes/nearby');
+app.use('/api/places/nearby', nearbyRoutes);
+// ...
+app.use('/api/votes', votesRoutes);

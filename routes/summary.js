@@ -22,9 +22,8 @@ router.get('/:id', async (req, res) => {
       summary,
     });
   } catch (error) {
-  console.error('Errore Axios:', error);
-    res.status(500).json({ error: 'Errore durante il recupero del concetto' });
-  }
+  res.status(500).json({ error: 'Errore durante il recupero del concetto' });
+}
 });
 
 module.exports = router;
