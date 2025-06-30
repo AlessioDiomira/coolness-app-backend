@@ -59,4 +59,3 @@ const votesRoutes = require('./routes/votes');
 const nearbyRoutes = require('./routes/nearby');
 app.use('/api/places/nearby', nearbyRoutes);
 // ...
-app.use('/api/votes', votesRoutes);
