@@ -11,27 +11,22 @@ const dbConfig = {
 };
 
 router.get('/', async (req, res) => {
-  const { query } = req.query;
-  if (!query) {
+  const term = req.query.term;
+  if (!term || term.trim() === '') {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
   try {
-    const connection = await mysql.createConnection(dbConfig);
-    const [places] = await connection.query(
-      "SELECT * FROM places WHERE name LIKE ? ORDER BY name ASC LIMIT 20",
-      [`%${query}%`]
+    const conn = await mysql.createConnection(dbConfig);
+    const [rows] = await conn.query(
+      `SELECT * FROM places WHERE name LIKE ? LIMIT 20`,
+      [`%${term}%`]
     );
-    const [concepts] = await connection.query(
-      "SELECT * FROM concepts WHERE name LIKE ? ORDER BY name ASC LIMIT 20",
-      [`%${query}%`]
-    );
-    await connection.end();
-
-    res.json({ places, concepts });
-  } catch (error) {
-    console.error('Errore durante la ricerca:', error);
-    res.status(500).json({ error: 'Errore durante la ricerca' });
+    await conn.end();
+    res.json(rows);
+  } catch (err) {
+    console.error('Search errore:', err);
+    res.status(500).json({ error: err.message });
   }
 });
 
