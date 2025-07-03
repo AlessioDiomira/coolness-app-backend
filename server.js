@@ -20,6 +20,7 @@ app.use('/api/places', placesRoutes);
 app.use('/api/votes', votesRoutes);
 app.use('/api/summary', summaryRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/concepts', require('./routes/concepts'));
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
