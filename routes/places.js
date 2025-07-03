@@ -10,14 +10,15 @@ const dbConfig = {
   database: process.env.DB_NAME
 };
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const connection = await mysql.createConnection(dbConfig);
-    const [rows] = await connection.query('SELECT * FROM places');
-    await connection.end();
-    res.json(rows);
-  } catch (error) {
-    res.status(500).send(error.message);
+    const [rows] = await db.execute('SELECT *, 0 AS avg_rating FROM places WHERE id = ?', [id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Non trovato' });
+    res.json(rows[0]);
+  } catch (e) {
+    console.error('Errore detail:', e);
+    res.status(500).json({ error: 'Errore server' });
   }
 });
 
