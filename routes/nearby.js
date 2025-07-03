@@ -1,8 +1,16 @@
 const express = require('express');
-const router = express.Router();
-const db = require('../db');
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-// GET /api/places/nearby?lat=...&lng=...
+const router = express.Router();
+
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+};
+
 router.get('/', async (req, res) => {
   const { lat, lng } = req.query;
 
@@ -11,7 +19,9 @@ router.get('/', async (req, res) => {
   }
 
   try {
-    const [rows] = await db.execute(
+    const conn = await mysql.createConnection(dbConfig);
+
+    const [rows] = await conn.execute(
       `
       SELECT *, (
         6371 * acos(
@@ -27,9 +37,10 @@ router.get('/', async (req, res) => {
       [lat, lng, lat]
     );
 
+    await conn.end();
     res.json(rows);
   } catch (err) {
-    console.error('Errore query nearby:', err);
+    console.error('Errore query nearby:', err.message);
     res.status(500).json({ error: 'Errore durante la ricerca dei luoghi vicini' });
   }
 });
