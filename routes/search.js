@@ -18,12 +18,20 @@ router.get('/', async (req, res) => {
 
   try {
     const conn = await mysql.createConnection(dbConfig);
-    const [rows] = await conn.query(
+
+    const [places] = await conn.query(
       `SELECT * FROM places WHERE name LIKE ? LIMIT 20`,
       [`%${term}%`]
     );
+
+    const [concepts] = await conn.query(
+      `SELECT * FROM concepts WHERE name LIKE ? LIMIT 20`,
+      [`%${term}%`]
+    );
+
     await conn.end();
-    res.json(rows);
+
+    res.json({ places, concepts });
   } catch (err) {
     console.error('Search errore:', err);
     res.status(500).json({ error: err.message });
